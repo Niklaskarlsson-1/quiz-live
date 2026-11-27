@@ -65,6 +65,12 @@ npm run build   # bygger React-appen
 npm start       # servern levererar appen, API:t och WebSockets på samma port
 ```
 
+### Publicera på Render
+
+Projektet har en `render.yaml` (Render Blueprint). På [render.com](https://render.com): **New → Blueprint**, välj GitHub-repot och klicka **Apply**. Render bygger appen, skapar databasen och startar servern. Varje push till `main` publiceras sedan automatiskt.
+
+På Renders gratisnivå somnar servern efter 15 minuter utan besökare och tar ungefär en minut att väcka. SQLite-filen ligger på serverns tillfälliga disk, så topplistan nollställs när appen publiceras om eller startas om. För en bestående topplista: byt till PostgreSQL (t.ex. Render Postgres eller Neon) i `schema.prisma` och `DATABASE_URL`.
+
 ## Tester
 
 ```bash
