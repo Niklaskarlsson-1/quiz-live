@@ -1,0 +1,17 @@
+# Render Blueprint: beskriver hur Render bygger och startar appen.
+# Render läser filen när du skapar en "Blueprint" från GitHub-repot.
+services:
+  - type: web
+    name: quiz-live
+    runtime: node
+    plan: free
+    # --include=dev behövs eftersom Vite och TypeScript-verktygen används vid bygget.
+    buildCommand: npm ci --include=dev && npm run build && npm run db:setup
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true # ny version publiceras automatiskt vid varje push till main
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATABASE_URL
+        value: file:./quiz.db
