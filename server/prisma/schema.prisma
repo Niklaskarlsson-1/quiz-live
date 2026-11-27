@@ -1,0 +1,34 @@
+// Databasens struktur. SQLite används lokalt: hela databasen är en fil (prisma/quiz.db).
+// Byt provider till "postgresql" och DATABASE_URL för att köra mot Postgres i produktion.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Question {
+  id           Int    @id @default(autoincrement())
+  category     String
+  text         String @unique
+  /// Svarsalternativen som en JSON-lista, eftersom SQLite saknar listtyp.
+  options      String
+  correctIndex Int
+
+  @@index([category])
+}
+
+model GameResult {
+  id            Int      @id @default(autoincrement())
+  playerName    String
+  score         Int
+  correctCount  Int
+  questionCount Int
+  category      String
+  createdAt     DateTime @default(now())
+
+  @@index([score])
+}
